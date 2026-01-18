@@ -51,3 +51,5 @@ const TreeVisualizer = ({ data }) => {
         </svg>
     );
 }
+
+export default TreeVisualizer;
