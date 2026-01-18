@@ -212,6 +212,11 @@ class BTree {
         node.keys.splice(idx, 1);
         node.children.splice(idx + 1, 1);
     }
+
+    get treeData() {
+        if (!this.root) return null;
+        return this.root.toJSON();
+    }
 }
 
 export default BTree;
