@@ -134,6 +134,28 @@ class BTree {
         }
     }
 
+    deleteFromNonLeaf(node, idx) {
+        let k = node.keys[idx];
+
+        // Nếu node con bên trái (predecessor) có ít nhất t khóa
+        if (node.children[idx].keys.length >= this.t) {
+            let pred = this.getPredecessor(node, idx);
+            node.keys[idx] = pred;
+            this._delete(node.children[idx], pred);
+        }
+        // Nếu node con bên phải (successor) có ít nhất t khóa
+        else if (node.children[idx + 1].keys.length >= this.t) {
+            let succ = this.getSuccessor(node, idx);
+            node.keys[idx] = succ;
+            this._delete(node.children[idx + 1], succ);
+        }
+        // Cả 2 con đều có t-1 khóa -> Gộp k và con phải vào con trái
+        else {
+            this.merge(node, idx);
+            this._delete(node.children[idx], k);
+        }
+    }
+
     // Lấy khóa lớn nhất của cây con bên trái
     getPredecessor(node, idx) {
         let cur = node.children[idx];
